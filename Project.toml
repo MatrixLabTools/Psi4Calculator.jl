@@ -1,0 +1,13 @@
+name = "Psi4Calculator"
+uuid = "e2b7ad92-acfe-472f-ae48-51c2aed5b591"
+authors = ["Teemu Järvinen <teemu.j.jarvinen@gmail.com> and contributors"]
+version = "0.1.0-DEV"
+
+[compat]
+julia = "1.9"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
