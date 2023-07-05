@@ -3,3 +3,4 @@ channels = ["anaconda", "conda-forge", "psi4", "conda-forge/label/libint_dev"]
 [deps]
 psi4 = ">=1.4"
 pytest = ""
+python = ">=3.8, <=3.10"
