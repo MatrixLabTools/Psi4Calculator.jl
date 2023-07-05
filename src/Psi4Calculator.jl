@@ -72,7 +72,7 @@ function Calculators.calculate_energy(cal::Calculator{Psi4}, points;
 end
 
 
-function Calculators.bsse_corrected_energy(cal::Calculator{Psi4}, c1::Cluster, c2::Cluster;
+function Calculators.bsse_corrected_energy(cal::Calculator{Psi4}, c1::Union{Cluster,AbstractSystem}, c2::Union{Cluster,AbstractSystem};
                                            basename="base", id="", pchannel=undef)
     ! gpsi4init && initpsi4(memory=cal.calculator.memory)
     s1=sprint( (io, x) -> print_xyz(io,x, printheader=false), c1)
