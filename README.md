@@ -10,7 +10,7 @@ Hit "]" to enter "pkg>"
 
 ```julia
 pkg> add registry add https://github.com/MatrixLabTools/PackageRegistry
-pkg> add Psi4Calculator
+pkg> add https://github.com/MatrixLabTools/Psi4Calculator.jl
 ```
 
 ## Example use case
@@ -25,3 +25,7 @@ ca = Calculator("blyp", "def2-svp",Psi4(memory="1000MiB", nthreads=2))
 
 calculate_energy(ca, N2)
 ```
+
+## Note
+
+This is still experimental and may or may not work.
