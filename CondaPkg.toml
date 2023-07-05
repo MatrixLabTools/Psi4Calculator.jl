@@ -1,0 +1,5 @@
+channels = ["anaconda", "conda-forge", "psi4", "conda-forge/label/libint_dev"]
+
+[deps]
+psi4 = ">=1.4"
+pytest = ""
