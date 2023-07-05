@@ -33,5 +33,9 @@ jobs:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
       - uses: julia-actions/cache@v1
+      - name: MatrixLabTools repo install
+        run: julia --color=yes --check-bounds=yes -e 'using Pkg;
+               Pkg.Registry.add(RegistrySpec(url="https://github.com/MatrixLabTools/PackageRegistry"));
+               Pkg.Registry.add(RegistrySpec(url="https://github.com/JuliaRegistries/General"));'
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
