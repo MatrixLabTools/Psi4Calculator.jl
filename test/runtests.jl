@@ -1,7 +1,7 @@
 using Test
 
 using Distributed
-addprocs(2)
+#addprocs(2)
 
 @everywhere using PotentialCalculation
 @everywhere using Psi4Calculator
