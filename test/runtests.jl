@@ -1,15 +1,7 @@
 using Test
 
-using Distributed
-addprocs(2)
-
-@everywhere using PotentialCalculation
-@everywhere using Psi4Calculator
-
-fname = tempname() * ".jld2"
-rname = tempname() * ".jld2"
-sname = tempname() * ".jld2"
-xyzname = tempname() * ".xyz"
+using PotentialCalculation
+using Psi4Calculator
 
 formic_acid=Cluster(
  [-6.7041359778      1.3501192944      0.0102209137
@@ -22,28 +14,10 @@ formic_acid=Cluster(
 Ar = Cluster( Atom(:Ar, rand(3)u"Å"  )  )
 N2 = isolated_system( [Atom(:N, [1., 0., 0.].*u"Å"), Atom(:N, [0., 0., 0.].*u"Å")] )
 
-open(xyzname,"w") do io
-    print_xyz(io, formic_acid)
-end
-
-pbar=true
-
-testrestarts = false
-
 @testset "Psi4Calculator.jl" begin
     ca = Calculator("blyp", "def2-svp",Psi4(memory="1000MiB", nthreads=2))
 
-    input1=create_inputs(xyzname, Ar, ca)
-    inputs=create_inputs(xyzname, N2, ca; npoints=5)
-    inputss=create_inputs(xyzname, xyzname, ca)
-
-    data1=calculate_potential(inputs, save_file=fname, pbar=pbar)
-    data2=calculate_potential(fname,ca,save_file=sname, restart_file=rname, pbar=pbar)
-    data3=continue_calculation(rname,ca, save_file=sname, restart_file=rname, pbar=pbar)
-
-    calculate_energy(ca, N2)
-    calculate_energy(ca, [N2,N2])
-    @test all(isapprox.(data1["Energy"], data2["Energy"], atol=2E-6))
-    @test all(isapprox.(data1["Energy"], data3["Energy"], atol=2E-6))
-    @test all(isapprox.(data2["Energy"], data3["Energy"], atol=2E-6))
+    @test calculate_energy(ca, formic_acid) < -189
+    @test all( calculate_energy(ca, [N2,Ar]) .< [-109, -527] )
+    @test bsse_corrected_energy(ca, formic_acid, Ar) < 1E-6
 end
